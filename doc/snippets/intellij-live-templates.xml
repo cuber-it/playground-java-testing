@@ -1,0 +1,248 @@
+<templateSet group="Testing">
+  <!-- JUnit 5 -->
+  <template name="test" value="@Test&#10;void $NAME$() {&#10;    // Arrange&#10;    $END$&#10;    &#10;    // Act&#10;    &#10;    // Assert&#10;}" description="JUnit 5 Test Method" toReformat="true" toShortenFQNames="true">
+    <variable name="NAME" expression="" defaultValue="&quot;shouldDoSomething&quot;" alwaysStopAt="true"/>
+    <context>
+      <option name="JAVA_CODE" value="true"/>
+    </context>
+  </template>
+
+  <template name="testclass" value="import org.junit.jupiter.api.*;&#10;import static org.assertj.core.api.Assertions.*;&#10;&#10;class $NAME$Test {&#10;&#10;    @BeforeEach&#10;    void setUp() {&#10;        $END$&#10;    }&#10;&#10;    @Test&#10;    void shouldDoSomething() {&#10;        // Arrange&#10;        &#10;        // Act&#10;        &#10;        // Assert&#10;    }&#10;}" description="JUnit 5 Test Class" toReformat="true" toShortenFQNames="true">
+    <variable name="NAME" expression="fileNameWithoutExtension()" defaultValue="" alwaysStopAt="true"/>
+    <context>
+      <option name="JAVA_CODE" value="true"/>
+    </context>
+  </template>
+
+  <template name="ptest" value="@ParameterizedTest&#10;@ValueSource(strings = {$VALUES$})&#10;void $NAME$(String value) {&#10;    $END$&#10;}" description="Parameterized Test with ValueSource" toReformat="true" toShortenFQNames="true">
+    <variable name="VALUES" expression="" defaultValue="&quot;\&quot;a\&quot;, \&quot;b\&quot;, \&quot;c\&quot;&quot;" alwaysStopAt="true"/>
+    <variable name="NAME" expression="" defaultValue="&quot;shouldHandle&quot;" alwaysStopAt="true"/>
+    <context>
+      <option name="JAVA_CODE" value="true"/>
+    </context>
+  </template>
+
+  <template name="ptestcsv" value="@ParameterizedTest&#10;@CsvSource({&#10;    &quot;$INPUT1$, $EXPECTED1$&quot;,&#10;    &quot;$INPUT2$, $EXPECTED2$&quot;&#10;})&#10;void $NAME$($TYPE1$ input, $TYPE2$ expected) {&#10;    $END$&#10;}" description="Parameterized Test with CsvSource" toReformat="true" toShortenFQNames="true">
+    <variable name="INPUT1" expression="" defaultValue="&quot;1&quot;" alwaysStopAt="true"/>
+    <variable name="EXPECTED1" expression="" defaultValue="&quot;true&quot;" alwaysStopAt="true"/>
+    <variable name="INPUT2" expression="" defaultValue="&quot;0&quot;" alwaysStopAt="true"/>
+    <variable name="EXPECTED2" expression="" defaultValue="&quot;false&quot;" alwaysStopAt="true"/>
+    <variable name="NAME" expression="" defaultValue="&quot;shouldReturn&quot;" alwaysStopAt="true"/>
+    <variable name="TYPE1" expression="" defaultValue="&quot;int&quot;" alwaysStopAt="true"/>
+    <variable name="TYPE2" expression="" defaultValue="&quot;boolean&quot;" alwaysStopAt="true"/>
+    <context>
+      <option name="JAVA_CODE" value="true"/>
+    </context>
+  </template>
+
+  <!-- Mockito -->
+  <template name="mockclass" value="import org.junit.jupiter.api.*;&#10;import org.junit.jupiter.api.extension.ExtendWith;&#10;import org.mockito.*;&#10;import org.mockito.junit.jupiter.MockitoExtension;&#10;import static org.mockito.Mockito.*;&#10;import static org.assertj.core.api.Assertions.*;&#10;&#10;@ExtendWith(MockitoExtension.class)&#10;class $NAME$Test {&#10;&#10;    @Mock&#10;    $MOCK_TYPE$ $MOCK_NAME$;&#10;&#10;    @InjectMocks&#10;    $SUT_TYPE$ sut;&#10;&#10;    @Test&#10;    void shouldDoSomething() {&#10;        // Arrange&#10;        when($MOCK_NAME$.$METHOD$()).thenReturn($RETURN$);&#10;        &#10;        // Act&#10;        $END$&#10;        &#10;        // Assert&#10;        verify($MOCK_NAME$).$METHOD$();&#10;    }&#10;}" description="Mockito Test Class" toReformat="true" toShortenFQNames="true">
+    <variable name="NAME" expression="fileNameWithoutExtension()" defaultValue="" alwaysStopAt="true"/>
+    <variable name="MOCK_TYPE" expression="" defaultValue="&quot;Repository&quot;" alwaysStopAt="true"/>
+    <variable name="MOCK_NAME" expression="" defaultValue="&quot;repository&quot;" alwaysStopAt="true"/>
+    <variable name="SUT_TYPE" expression="" defaultValue="&quot;Service&quot;" alwaysStopAt="true"/>
+    <variable name="METHOD" expression="" defaultValue="&quot;findAll&quot;" alwaysStopAt="true"/>
+    <variable name="RETURN" expression="" defaultValue="&quot;List.of()&quot;" alwaysStopAt="true"/>
+    <context>
+      <option name="JAVA_CODE" value="true"/>
+    </context>
+  </template>
+
+  <template name="mock" value="@Mock&#10;$TYPE$ $NAME$;" description="Mock field" toReformat="true" toShortenFQNames="true">
+    <variable name="TYPE" expression="" defaultValue="&quot;Repository&quot;" alwaysStopAt="true"/>
+    <variable name="NAME" expression="" defaultValue="&quot;repository&quot;" alwaysStopAt="true"/>
+    <context>
+      <option name="JAVA_CODE" value="true"/>
+    </context>
+  </template>
+
+  <template name="whenthen" value="when($MOCK$.$METHOD$($ARGS$)).thenReturn($RETURN$);" description="Mockito when().thenReturn()" toReformat="true" toShortenFQNames="true">
+    <variable name="MOCK" expression="" defaultValue="&quot;mock&quot;" alwaysStopAt="true"/>
+    <variable name="METHOD" expression="" defaultValue="&quot;method&quot;" alwaysStopAt="true"/>
+    <variable name="ARGS" expression="" defaultValue="&quot;any()&quot;" alwaysStopAt="true"/>
+    <variable name="RETURN" expression="" defaultValue="&quot;result&quot;" alwaysStopAt="true"/>
+    <context>
+      <option name="JAVA_CODE" value="true"/>
+    </context>
+  </template>
+
+  <template name="verifym" value="verify($MOCK$).$METHOD$($ARGS$);" description="Mockito verify()" toReformat="true" toShortenFQNames="true">
+    <variable name="MOCK" expression="" defaultValue="&quot;mock&quot;" alwaysStopAt="true"/>
+    <variable name="METHOD" expression="" defaultValue="&quot;method&quot;" alwaysStopAt="true"/>
+    <variable name="ARGS" expression="" defaultValue="&quot;any()&quot;" alwaysStopAt="true"/>
+    <context>
+      <option name="JAVA_CODE" value="true"/>
+    </context>
+  </template>
+
+  <!-- Spring Boot Test -->
+  <template name="sbtest" value="import org.junit.jupiter.api.*;&#10;import org.springframework.beans.factory.annotation.Autowired;&#10;import org.springframework.boot.test.context.SpringBootTest;&#10;import static org.assertj.core.api.Assertions.*;&#10;&#10;@SpringBootTest&#10;class $NAME$Test {&#10;&#10;    @Autowired&#10;    $TYPE$ $NAME_LOWER$;&#10;&#10;    @Test&#10;    void shouldDoSomething() {&#10;        $END$&#10;    }&#10;}" description="Spring Boot Test Class" toReformat="true" toShortenFQNames="true">
+    <variable name="NAME" expression="fileNameWithoutExtension()" defaultValue="" alwaysStopAt="true"/>
+    <variable name="TYPE" expression="" defaultValue="&quot;Service&quot;" alwaysStopAt="true"/>
+    <variable name="NAME_LOWER" expression="" defaultValue="&quot;service&quot;" alwaysStopAt="true"/>
+    <context>
+      <option name="JAVA_CODE" value="true"/>
+    </context>
+  </template>
+
+  <template name="webmvc" value="import org.junit.jupiter.api.*;&#10;import org.springframework.beans.factory.annotation.Autowired;&#10;import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;&#10;import org.springframework.boot.test.mock.mockito.MockBean;&#10;import org.springframework.test.web.servlet.MockMvc;&#10;import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;&#10;import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;&#10;import static org.mockito.Mockito.*;&#10;&#10;@WebMvcTest($CONTROLLER$.class)&#10;class $CONTROLLER$Test {&#10;&#10;    @Autowired&#10;    MockMvc mockMvc;&#10;&#10;    @MockBean&#10;    $SERVICE$ service;&#10;&#10;    @Test&#10;    void shouldReturnOk() throws Exception {&#10;        mockMvc.perform(get(&quot;$PATH$&quot;))&#10;            .andExpect(status().isOk());&#10;    }&#10;}" description="WebMvcTest Class" toReformat="true" toShortenFQNames="true">
+    <variable name="CONTROLLER" expression="" defaultValue="&quot;TodoController&quot;" alwaysStopAt="true"/>
+    <variable name="SERVICE" expression="" defaultValue="&quot;TodoService&quot;" alwaysStopAt="true"/>
+    <variable name="PATH" expression="" defaultValue="&quot;/api/todos&quot;" alwaysStopAt="true"/>
+    <context>
+      <option name="JAVA_CODE" value="true"/>
+    </context>
+  </template>
+
+  <template name="datajpa" value="import org.junit.jupiter.api.*;&#10;import org.springframework.beans.factory.annotation.Autowired;&#10;import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;&#10;import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;&#10;import static org.assertj.core.api.Assertions.*;&#10;&#10;@DataJpaTest&#10;class $NAME$Test {&#10;&#10;    @Autowired&#10;    TestEntityManager em;&#10;&#10;    @Autowired&#10;    $REPO$ repository;&#10;&#10;    @Test&#10;    void shouldFindById() {&#10;        // Arrange&#10;        $ENTITY$ entity = new $ENTITY$();&#10;        em.persistAndFlush(entity);&#10;        &#10;        // Act&#10;        var found = repository.findById(entity.getId());&#10;        &#10;        // Assert&#10;        assertThat(found).isPresent();&#10;    }&#10;}" description="DataJpaTest Class" toReformat="true" toShortenFQNames="true">
+    <variable name="NAME" expression="fileNameWithoutExtension()" defaultValue="" alwaysStopAt="true"/>
+    <variable name="REPO" expression="" defaultValue="&quot;TodoRepository&quot;" alwaysStopAt="true"/>
+    <variable name="ENTITY" expression="" defaultValue="&quot;Todo&quot;" alwaysStopAt="true"/>
+    <context>
+      <option name="JAVA_CODE" value="true"/>
+    </context>
+  </template>
+
+  <!-- REST Assured -->
+  <template name="raget" value="given()&#10;    .contentType(ContentType.JSON)&#10;.when()&#10;    .get(&quot;$PATH$&quot;)&#10;.then()&#10;    .statusCode(200)&#10;    .body(&quot;$JSON_PATH$&quot;, equalTo($VALUE$));" description="REST Assured GET" toReformat="true" toShortenFQNames="true">
+    <variable name="PATH" expression="" defaultValue="&quot;/api/todos&quot;" alwaysStopAt="true"/>
+    <variable name="JSON_PATH" expression="" defaultValue="&quot;[0].title&quot;" alwaysStopAt="true"/>
+    <variable name="VALUE" expression="" defaultValue="&quot;\&quot;Test\&quot;&quot;" alwaysStopAt="true"/>
+    <context>
+      <option name="JAVA_CODE" value="true"/>
+    </context>
+  </template>
+
+  <template name="rapost" value="given()&#10;    .contentType(ContentType.JSON)&#10;    .body($BODY$)&#10;.when()&#10;    .post(&quot;$PATH$&quot;)&#10;.then()&#10;    .statusCode(201)&#10;    .body(&quot;id&quot;, notNullValue());" description="REST Assured POST" toReformat="true" toShortenFQNames="true">
+    <variable name="BODY" expression="" defaultValue="&quot;\&quot;{\\\&quot;title\\\&quot;:\\\&quot;Test\\\&quot;}\&quot;&quot;" alwaysStopAt="true"/>
+    <variable name="PATH" expression="" defaultValue="&quot;/api/todos&quot;" alwaysStopAt="true"/>
+    <context>
+      <option name="JAVA_CODE" value="true"/>
+    </context>
+  </template>
+
+  <template name="raclass" value="import io.restassured.RestAssured;&#10;import io.restassured.http.ContentType;&#10;import org.junit.jupiter.api.*;&#10;import static io.restassured.RestAssured.*;&#10;import static org.hamcrest.Matchers.*;&#10;&#10;class $NAME$Test {&#10;&#10;    @BeforeAll&#10;    static void setUp() {&#10;        RestAssured.baseURI = &quot;http://localhost&quot;;&#10;        RestAssured.port = $PORT$;&#10;        RestAssured.basePath = &quot;$BASE_PATH$&quot;;&#10;    }&#10;&#10;    @Test&#10;    void shouldReturnAll() {&#10;        given()&#10;            .contentType(ContentType.JSON)&#10;        .when()&#10;            .get(&quot;/&quot;)&#10;        .then()&#10;            .statusCode(200);&#10;    }&#10;}" description="REST Assured Test Class" toReformat="true" toShortenFQNames="true">
+    <variable name="NAME" expression="fileNameWithoutExtension()" defaultValue="" alwaysStopAt="true"/>
+    <variable name="PORT" expression="" defaultValue="&quot;8080&quot;" alwaysStopAt="true"/>
+    <variable name="BASE_PATH" expression="" defaultValue="&quot;/api&quot;" alwaysStopAt="true"/>
+    <context>
+      <option name="JAVA_CODE" value="true"/>
+    </context>
+  </template>
+
+  <!-- WireMock -->
+  <template name="wmstub" value="stubFor(get(urlEqualTo(&quot;$PATH$&quot;))&#10;    .willReturn(aResponse()&#10;        .withStatus(200)&#10;        .withHeader(&quot;Content-Type&quot;, &quot;application/json&quot;)&#10;        .withBody(&quot;$BODY$&quot;)));" description="WireMock Stub" toReformat="true" toShortenFQNames="true">
+    <variable name="PATH" expression="" defaultValue="&quot;/api/external&quot;" alwaysStopAt="true"/>
+    <variable name="BODY" expression="" defaultValue="&quot;{\\\&quot;result\\\&quot;: true}&quot;" alwaysStopAt="true"/>
+    <context>
+      <option name="JAVA_CODE" value="true"/>
+    </context>
+  </template>
+
+  <template name="wmclass" value="import com.github.tomakehurst.wiremock.WireMockServer;&#10;import com.github.tomakehurst.wiremock.client.WireMock;&#10;import org.junit.jupiter.api.*;&#10;import static com.github.tomakehurst.wiremock.client.WireMock.*;&#10;&#10;class $NAME$Test {&#10;&#10;    static WireMockServer wireMockServer;&#10;&#10;    @BeforeAll&#10;    static void startServer() {&#10;        wireMockServer = new WireMockServer($PORT$);&#10;        wireMockServer.start();&#10;        WireMock.configureFor(&quot;localhost&quot;, $PORT$);&#10;    }&#10;&#10;    @AfterAll&#10;    static void stopServer() {&#10;        wireMockServer.stop();&#10;    }&#10;&#10;    @BeforeEach&#10;    void reset() {&#10;        wireMockServer.resetAll();&#10;    }&#10;&#10;    @Test&#10;    void shouldCallExternalService() {&#10;        // Arrange&#10;        stubFor(get(urlEqualTo(&quot;$PATH$&quot;))&#10;            .willReturn(aResponse()&#10;                .withStatus(200)&#10;                .withHeader(&quot;Content-Type&quot;, &quot;application/json&quot;)&#10;                .withBody(&quot;{}&quot;)));&#10;&#10;        // Act&#10;        $END$&#10;&#10;        // Assert&#10;        verify(getRequestedFor(urlEqualTo(&quot;$PATH$&quot;)));&#10;    }&#10;}" description="WireMock Test Class" toReformat="true" toShortenFQNames="true">
+    <variable name="NAME" expression="fileNameWithoutExtension()" defaultValue="" alwaysStopAt="true"/>
+    <variable name="PORT" expression="" defaultValue="&quot;8089&quot;" alwaysStopAt="true"/>
+    <variable name="PATH" expression="" defaultValue="&quot;/api/external&quot;" alwaysStopAt="true"/>
+    <context>
+      <option name="JAVA_CODE" value="true"/>
+    </context>
+  </template>
+
+  <!-- AssertJ -->
+  <template name="assertthat" value="assertThat($ACTUAL$).$ASSERTION$($EXPECTED$);" description="AssertJ assertThat" toReformat="true" toShortenFQNames="true">
+    <variable name="ACTUAL" expression="" defaultValue="&quot;actual&quot;" alwaysStopAt="true"/>
+    <variable name="ASSERTION" expression="" defaultValue="&quot;isEqualTo&quot;" alwaysStopAt="true"/>
+    <variable name="EXPECTED" expression="" defaultValue="&quot;expected&quot;" alwaysStopAt="true"/>
+    <context>
+      <option name="JAVA_CODE" value="true"/>
+    </context>
+  </template>
+
+  <template name="assertex" value="assertThatThrownBy(() -&gt; $CODE$)&#10;    .isInstanceOf($EXCEPTION$.class)&#10;    .hasMessageContaining(&quot;$MESSAGE$&quot;);" description="AssertJ Exception" toReformat="true" toShortenFQNames="true">
+    <variable name="CODE" expression="" defaultValue="&quot;service.doSomething()&quot;" alwaysStopAt="true"/>
+    <variable name="EXCEPTION" expression="" defaultValue="&quot;IllegalArgumentException&quot;" alwaysStopAt="true"/>
+    <variable name="MESSAGE" expression="" defaultValue="&quot;error&quot;" alwaysStopAt="true"/>
+    <context>
+      <option name="JAVA_CODE" value="true"/>
+    </context>
+  </template>
+
+  <template name="softassert" value="SoftAssertions.assertSoftly(soft -&gt; {&#10;    soft.assertThat($VAR1$).$ASSERT1$($EXP1$);&#10;    soft.assertThat($VAR2$).$ASSERT2$($EXP2$);&#10;});" description="AssertJ Soft Assertions" toReformat="true" toShortenFQNames="true">
+    <variable name="VAR1" expression="" defaultValue="&quot;a&quot;" alwaysStopAt="true"/>
+    <variable name="ASSERT1" expression="" defaultValue="&quot;isEqualTo&quot;" alwaysStopAt="true"/>
+    <variable name="EXP1" expression="" defaultValue="&quot;1&quot;" alwaysStopAt="true"/>
+    <variable name="VAR2" expression="" defaultValue="&quot;b&quot;" alwaysStopAt="true"/>
+    <variable name="ASSERT2" expression="" defaultValue="&quot;isEqualTo&quot;" alwaysStopAt="true"/>
+    <variable name="EXP2" expression="" defaultValue="&quot;2&quot;" alwaysStopAt="true"/>
+    <context>
+      <option name="JAVA_CODE" value="true"/>
+    </context>
+  </template>
+
+  <!-- ArchUnit -->
+  <template name="archclass" value="import com.tngtech.archunit.core.domain.JavaClasses;&#10;import com.tngtech.archunit.core.importer.ClassFileImporter;&#10;import com.tngtech.archunit.core.importer.ImportOption;&#10;import org.junit.jupiter.api.*;&#10;import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.*;&#10;import static com.tngtech.archunit.library.Architectures.*;&#10;&#10;class ArchitectureTest {&#10;&#10;    static JavaClasses classes;&#10;&#10;    @BeforeAll&#10;    static void setUp() {&#10;        classes = new ClassFileImporter()&#10;            .withImportOption(ImportOption.Predefined.DO_NOT_INCLUDE_TESTS)&#10;            .importPackages(&quot;$PACKAGE$&quot;);&#10;    }&#10;&#10;    @Test&#10;    void layeredArchitectureIsRespected() {&#10;        layeredArchitecture()&#10;            .consideringAllDependencies()&#10;            .layer(&quot;Controller&quot;).definedBy(&quot;..controller..&quot;)&#10;            .layer(&quot;Service&quot;).definedBy(&quot;..service..&quot;)&#10;            .layer(&quot;Repository&quot;).definedBy(&quot;..repository..&quot;)&#10;            .whereLayer(&quot;Controller&quot;).mayNotBeAccessedByAnyLayer()&#10;            .whereLayer(&quot;Service&quot;).mayOnlyBeAccessedByLayers(&quot;Controller&quot;)&#10;            .whereLayer(&quot;Repository&quot;).mayOnlyBeAccessedByLayers(&quot;Service&quot;)&#10;            .check(classes);&#10;    }&#10;}" description="ArchUnit Test Class" toReformat="true" toShortenFQNames="true">
+    <variable name="PACKAGE" expression="" defaultValue="&quot;de.training.myapp&quot;" alwaysStopAt="true"/>
+    <context>
+      <option name="JAVA_CODE" value="true"/>
+    </context>
+  </template>
+
+  <template name="archrule" value="@Test&#10;void $NAME$() {&#10;    $RULE$()&#10;        .that().resideInAPackage(&quot;$PACKAGE$&quot;)&#10;        .should().$CONDITION$&#10;        .check(classes);&#10;}" description="ArchUnit Rule" toReformat="true" toShortenFQNames="true">
+    <variable name="NAME" expression="" defaultValue="&quot;shouldFollowNamingConvention&quot;" alwaysStopAt="true"/>
+    <variable name="RULE" expression="" defaultValue="&quot;classes&quot;" alwaysStopAt="true"/>
+    <variable name="PACKAGE" expression="" defaultValue="&quot;..service..&quot;" alwaysStopAt="true"/>
+    <variable name="CONDITION" expression="" defaultValue="&quot;haveSimpleNameEndingWith(\&quot;Service\&quot;)&quot;" alwaysStopAt="true"/>
+    <context>
+      <option name="JAVA_CODE" value="true"/>
+    </context>
+  </template>
+
+  <!-- Allure -->
+  <template name="alluretest" value="@Test&#10;@Story(&quot;$STORY$&quot;)&#10;@Description(&quot;$DESC$&quot;)&#10;@Severity(SeverityLevel.$SEVERITY$)&#10;void $NAME$() {&#10;    $END$&#10;}" description="Allure Annotated Test" toReformat="true" toShortenFQNames="true">
+    <variable name="STORY" expression="" defaultValue="&quot;User story&quot;" alwaysStopAt="true"/>
+    <variable name="DESC" expression="" defaultValue="&quot;Test description&quot;" alwaysStopAt="true"/>
+    <variable name="SEVERITY" expression="" defaultValue="&quot;NORMAL&quot;" alwaysStopAt="true"/>
+    <variable name="NAME" expression="" defaultValue="&quot;shouldDoSomething&quot;" alwaysStopAt="true"/>
+    <context>
+      <option name="JAVA_CODE" value="true"/>
+    </context>
+  </template>
+
+  <template name="allurestep" value="@Step(&quot;$DESCRIPTION$&quot;)&#10;void $NAME$($PARAMS$) {&#10;    $END$&#10;}" description="Allure Step Method" toReformat="true" toShortenFQNames="true">
+    <variable name="DESCRIPTION" expression="" defaultValue="&quot;Step description&quot;" alwaysStopAt="true"/>
+    <variable name="NAME" expression="" defaultValue="&quot;performAction&quot;" alwaysStopAt="true"/>
+    <variable name="PARAMS" expression="" defaultValue="" alwaysStopAt="true"/>
+    <context>
+      <option name="JAVA_CODE" value="true"/>
+    </context>
+  </template>
+
+  <!-- TestContainers -->
+  <template name="tcpostgres" value="@Container&#10;static PostgreSQLContainer&lt;?&gt; postgres = new PostgreSQLContainer&lt;&gt;(&quot;postgres:$VERSION$&quot;)&#10;    .withDatabaseName(&quot;$DB$&quot;)&#10;    .withUsername(&quot;$USER$&quot;)&#10;    .withPassword(&quot;$PASS$&quot;);" description="TestContainers PostgreSQL" toReformat="true" toShortenFQNames="true">
+    <variable name="VERSION" expression="" defaultValue="&quot;15&quot;" alwaysStopAt="true"/>
+    <variable name="DB" expression="" defaultValue="&quot;testdb&quot;" alwaysStopAt="true"/>
+    <variable name="USER" expression="" defaultValue="&quot;test&quot;" alwaysStopAt="true"/>
+    <variable name="PASS" expression="" defaultValue="&quot;test&quot;" alwaysStopAt="true"/>
+    <context>
+      <option name="JAVA_CODE" value="true"/>
+    </context>
+  </template>
+
+  <template name="tcdynamic" value="@DynamicPropertySource&#10;static void configureProperties(DynamicPropertyRegistry registry) {&#10;    registry.add(&quot;spring.datasource.url&quot;, $CONTAINER$::getJdbcUrl);&#10;    registry.add(&quot;spring.datasource.username&quot;, $CONTAINER$::getUsername);&#10;    registry.add(&quot;spring.datasource.password&quot;, $CONTAINER$::getPassword);&#10;}" description="TestContainers DynamicPropertySource" toReformat="true" toShortenFQNames="true">
+    <variable name="CONTAINER" expression="" defaultValue="&quot;postgres&quot;" alwaysStopAt="true"/>
+    <context>
+      <option name="JAVA_CODE" value="true"/>
+    </context>
+  </template>
+
+  <!-- Builder Pattern -->
+  <template name="builder" value="public class $NAME$Builder {&#10;&#10;    private Long id = 1L;&#10;    private String $FIELD1$ = &quot;default&quot;;&#10;&#10;    private $NAME$Builder() {}&#10;&#10;    public static $NAME$Builder a$NAME$() {&#10;        return new $NAME$Builder();&#10;    }&#10;&#10;    public $NAME$Builder withId(Long id) {&#10;        this.id = id;&#10;        return this;&#10;    }&#10;&#10;    public $NAME$Builder with$FIELD1_CAP$(String $FIELD1$) {&#10;        this.$FIELD1$ = $FIELD1$;&#10;        return this;&#10;    }&#10;&#10;    public $NAME$ build() {&#10;        $NAME$ obj = new $NAME$();&#10;        obj.setId(id);&#10;        obj.set$FIELD1_CAP$($FIELD1$);&#10;        return obj;&#10;    }&#10;}" description="Test Data Builder" toReformat="true" toShortenFQNames="true">
+    <variable name="NAME" expression="" defaultValue="&quot;Todo&quot;" alwaysStopAt="true"/>
+    <variable name="FIELD1" expression="" defaultValue="&quot;title&quot;" alwaysStopAt="true"/>
+    <variable name="FIELD1_CAP" expression="" defaultValue="&quot;Title&quot;" alwaysStopAt="true"/>
+    <context>
+      <option name="JAVA_CODE" value="true"/>
+    </context>
+  </template>
+
+</templateSet>

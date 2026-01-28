@@ -1,0 +1,377 @@
+{
+  // JUnit 5
+  "JUnit 5 Test Method": {
+    "prefix": "test",
+    "scope": "java",
+    "body": [
+      "@Test",
+      "void ${1:shouldDoSomething}() {",
+      "    // Arrange",
+      "    $0",
+      "    ",
+      "    // Act",
+      "    ",
+      "    // Assert",
+      "}"
+    ],
+    "description": "JUnit 5 Test Method"
+  },
+
+  "JUnit 5 Test Class": {
+    "prefix": "testclass",
+    "scope": "java",
+    "body": [
+      "import org.junit.jupiter.api.*;",
+      "import static org.assertj.core.api.Assertions.*;",
+      "",
+      "class ${1:$TM_FILENAME_BASE}Test {",
+      "",
+      "    @BeforeEach",
+      "    void setUp() {",
+      "        $0",
+      "    }",
+      "",
+      "    @Test",
+      "    void shouldDoSomething() {",
+      "        // Arrange",
+      "        ",
+      "        // Act",
+      "        ",
+      "        // Assert",
+      "    }",
+      "}"
+    ],
+    "description": "JUnit 5 Test Class"
+  },
+
+  "Parameterized Test ValueSource": {
+    "prefix": "ptest",
+    "scope": "java",
+    "body": [
+      "@ParameterizedTest",
+      "@ValueSource(strings = {${1:\"a\", \"b\", \"c\"}})",
+      "void ${2:shouldHandle}(String value) {",
+      "    $0",
+      "}"
+    ],
+    "description": "Parameterized Test with ValueSource"
+  },
+
+  "Parameterized Test CsvSource": {
+    "prefix": "ptestcsv",
+    "scope": "java",
+    "body": [
+      "@ParameterizedTest",
+      "@CsvSource({",
+      "    \"${1:1}, ${2:true}\",",
+      "    \"${3:0}, ${4:false}\"",
+      "})",
+      "void ${5:shouldReturn}(${6:int} input, ${7:boolean} expected) {",
+      "    $0",
+      "}"
+    ],
+    "description": "Parameterized Test with CsvSource"
+  },
+
+  // Mockito
+  "Mockito Test Class": {
+    "prefix": "mockclass",
+    "scope": "java",
+    "body": [
+      "import org.junit.jupiter.api.*;",
+      "import org.junit.jupiter.api.extension.ExtendWith;",
+      "import org.mockito.*;",
+      "import org.mockito.junit.jupiter.MockitoExtension;",
+      "import static org.mockito.Mockito.*;",
+      "import static org.assertj.core.api.Assertions.*;",
+      "",
+      "@ExtendWith(MockitoExtension.class)",
+      "class ${1:$TM_FILENAME_BASE}Test {",
+      "",
+      "    @Mock",
+      "    ${2:Repository} ${3:repository};",
+      "",
+      "    @InjectMocks",
+      "    ${4:Service} sut;",
+      "",
+      "    @Test",
+      "    void shouldDoSomething() {",
+      "        // Arrange",
+      "        when($3.${5:findAll}()).thenReturn(${6:List.of()});",
+      "        ",
+      "        // Act",
+      "        $0",
+      "        ",
+      "        // Assert",
+      "        verify($3).$5();",
+      "    }",
+      "}"
+    ],
+    "description": "Mockito Test Class"
+  },
+
+  "Mock Field": {
+    "prefix": "mock",
+    "scope": "java",
+    "body": [
+      "@Mock",
+      "${1:Repository} ${2:repository};"
+    ],
+    "description": "Mock field"
+  },
+
+  "Mockito when thenReturn": {
+    "prefix": "whenthen",
+    "scope": "java",
+    "body": "when(${1:mock}.${2:method}(${3:any()})).thenReturn(${4:result});",
+    "description": "Mockito when().thenReturn()"
+  },
+
+  "Mockito verify": {
+    "prefix": "verifym",
+    "scope": "java",
+    "body": "verify(${1:mock}).${2:method}(${3:any()});",
+    "description": "Mockito verify()"
+  },
+
+  // Spring Boot Test
+  "Spring Boot Test Class": {
+    "prefix": "sbtest",
+    "scope": "java",
+    "body": [
+      "import org.junit.jupiter.api.*;",
+      "import org.springframework.beans.factory.annotation.Autowired;",
+      "import org.springframework.boot.test.context.SpringBootTest;",
+      "import static org.assertj.core.api.Assertions.*;",
+      "",
+      "@SpringBootTest",
+      "class ${1:$TM_FILENAME_BASE}Test {",
+      "",
+      "    @Autowired",
+      "    ${2:Service} ${3:service};",
+      "",
+      "    @Test",
+      "    void shouldDoSomething() {",
+      "        $0",
+      "    }",
+      "}"
+    ],
+    "description": "Spring Boot Test Class"
+  },
+
+  "WebMvcTest Class": {
+    "prefix": "webmvc",
+    "scope": "java",
+    "body": [
+      "import org.junit.jupiter.api.*;",
+      "import org.springframework.beans.factory.annotation.Autowired;",
+      "import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;",
+      "import org.springframework.boot.test.mock.mockito.MockBean;",
+      "import org.springframework.test.web.servlet.MockMvc;",
+      "import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;",
+      "import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;",
+      "import static org.mockito.Mockito.*;",
+      "",
+      "@WebMvcTest(${1:TodoController}.class)",
+      "class $1Test {",
+      "",
+      "    @Autowired",
+      "    MockMvc mockMvc;",
+      "",
+      "    @MockBean",
+      "    ${2:TodoService} service;",
+      "",
+      "    @Test",
+      "    void shouldReturnOk() throws Exception {",
+      "        mockMvc.perform(get(\"${3:/api/todos}\"))",
+      "            .andExpect(status().isOk());",
+      "    }",
+      "}"
+    ],
+    "description": "WebMvcTest Class"
+  },
+
+  "DataJpaTest Class": {
+    "prefix": "datajpa",
+    "scope": "java",
+    "body": [
+      "import org.junit.jupiter.api.*;",
+      "import org.springframework.beans.factory.annotation.Autowired;",
+      "import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;",
+      "import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;",
+      "import static org.assertj.core.api.Assertions.*;",
+      "",
+      "@DataJpaTest",
+      "class ${1:$TM_FILENAME_BASE}Test {",
+      "",
+      "    @Autowired",
+      "    TestEntityManager em;",
+      "",
+      "    @Autowired",
+      "    ${2:TodoRepository} repository;",
+      "",
+      "    @Test",
+      "    void shouldFindById() {",
+      "        // Arrange",
+      "        ${3:Todo} entity = new $3();",
+      "        em.persistAndFlush(entity);",
+      "        ",
+      "        // Act",
+      "        var found = repository.findById(entity.getId());",
+      "        ",
+      "        // Assert",
+      "        assertThat(found).isPresent();",
+      "    }",
+      "}"
+    ],
+    "description": "DataJpaTest Class"
+  },
+
+  // REST Assured
+  "REST Assured GET": {
+    "prefix": "raget",
+    "scope": "java",
+    "body": [
+      "given()",
+      "    .contentType(ContentType.JSON)",
+      ".when()",
+      "    .get(\"${1:/api/todos}\")",
+      ".then()",
+      "    .statusCode(200)",
+      "    .body(\"${2:[0].title}\", equalTo(${3:\"Test\"}));"
+    ],
+    "description": "REST Assured GET"
+  },
+
+  "REST Assured POST": {
+    "prefix": "rapost",
+    "scope": "java",
+    "body": [
+      "given()",
+      "    .contentType(ContentType.JSON)",
+      "    .body(${1:\"{\\\"title\\\":\\\"Test\\\"}\"})",
+      ".when()",
+      "    .post(\"${2:/api/todos}\")",
+      ".then()",
+      "    .statusCode(201)",
+      "    .body(\"id\", notNullValue());"
+    ],
+    "description": "REST Assured POST"
+  },
+
+  "REST Assured Test Class": {
+    "prefix": "raclass",
+    "scope": "java",
+    "body": [
+      "import io.restassured.RestAssured;",
+      "import io.restassured.http.ContentType;",
+      "import org.junit.jupiter.api.*;",
+      "import static io.restassured.RestAssured.*;",
+      "import static org.hamcrest.Matchers.*;",
+      "",
+      "class ${1:$TM_FILENAME_BASE}Test {",
+      "",
+      "    @BeforeAll",
+      "    static void setUp() {",
+      "        RestAssured.baseURI = \"http://localhost\";",
+      "        RestAssured.port = ${2:8080};",
+      "        RestAssured.basePath = \"${3:/api}\";",
+      "    }",
+      "",
+      "    @Test",
+      "    void shouldReturnAll() {",
+      "        given()",
+      "            .contentType(ContentType.JSON)",
+      "        .when()",
+      "            .get(\"/\")",
+      "        .then()",
+      "            .statusCode(200);",
+      "    }",
+      "}"
+    ],
+    "description": "REST Assured Test Class"
+  },
+
+  // WireMock
+  "WireMock Stub": {
+    "prefix": "wmstub",
+    "scope": "java",
+    "body": [
+      "stubFor(get(urlEqualTo(\"${1:/api/external}\"))",
+      "    .willReturn(aResponse()",
+      "        .withStatus(200)",
+      "        .withHeader(\"Content-Type\", \"application/json\")",
+      "        .withBody(\"${2:{\\\"result\\\": true}}\")));"
+    ],
+    "description": "WireMock Stub"
+  },
+
+  "WireMock Test Class": {
+    "prefix": "wmclass",
+    "scope": "java",
+    "body": [
+      "import com.github.tomakehurst.wiremock.WireMockServer;",
+      "import com.github.tomakehurst.wiremock.client.WireMock;",
+      "import org.junit.jupiter.api.*;",
+      "import static com.github.tomakehurst.wiremock.client.WireMock.*;",
+      "",
+      "class ${1:$TM_FILENAME_BASE}Test {",
+      "",
+      "    static WireMockServer wireMockServer;",
+      "",
+      "    @BeforeAll",
+      "    static void startServer() {",
+      "        wireMockServer = new WireMockServer(${2:8089});",
+      "        wireMockServer.start();",
+      "        WireMock.configureFor(\"localhost\", $2);",
+      "    }",
+      "",
+      "    @AfterAll",
+      "    static void stopServer() {",
+      "        wireMockServer.stop();",
+      "    }",
+      "",
+      "    @BeforeEach",
+      "    void reset() {",
+      "        wireMockServer.resetAll();",
+      "    }",
+      "",
+      "    @Test",
+      "    void shouldCallExternalService() {",
+      "        // Arrange",
+      "        stubFor(get(urlEqualTo(\"${3:/api/external}\"))",
+      "            .willReturn(aResponse()",
+      "                .withStatus(200)",
+      "                .withHeader(\"Content-Type\", \"application/json\")",
+      "                .withBody(\"{}\")));",
+      "",
+      "        // Act",
+      "        $0",
+      "",
+      "        // Assert",
+      "        verify(getRequestedFor(urlEqualTo(\"$3\")));",
+      "    }",
+      "}"
+    ],
+    "description": "WireMock Test Class"
+  },
+
+  // AssertJ
+  "AssertJ assertThat": {
+    "prefix": "assertthat",
+    "scope": "java",
+    "body": "assertThat(${1:actual}).${2:isEqualTo}(${3:expected});",
+    "description": "AssertJ assertThat"
+  },
+
+  "AssertJ Exception": {
+    "prefix": "assertex",
+    "scope": "java",
+    "body": [
+      "assertThatThrownBy(() -> ${1:service.doSomething()})",
+      "    .isInstanceOf(${2:IllegalArgumentException}.class)",
+      "    .hasMessageContaining(\"${3:error}\");"
+    ],
+    "description": "AssertJ Exception"
+  }
+}

@@ -1,0 +1,29 @@
+# Build-Ausgabe
+target/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+*.code-workspace
+
+# Git
+.git/
+.gitignore
+
+# Docker
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Logs
+*.log
+logs/
+
+# Tests
+src/test/
+
+# Temporaere Dateien
+*.tmp
+*.swp
+*~

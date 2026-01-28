@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Todo bearbeiten</title>
+    <style>
+        body { font-family: sans-serif; max-width: 500px; margin: 40px auto; padding: 0 20px; }
+        h1 { color: #333; }
+        .form-group { margin: 15px 0; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input[type="text"], input[type="date"] { width: 100%; padding: 10px; box-sizing: border-box; }
+        button, a.btn { padding: 10px 20px; cursor: pointer; border: none; border-radius: 3px; text-decoration: none; }
+        .btn-save { background: #4caf50; color: white; }
+        .btn-cancel { background: #9e9e9e; color: white; }
+        .actions { margin-top: 20px; display: flex; gap: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Todo bearbeiten</h1>
+
+    <form th:action="@{/{id}/edit(id=${todo.id})}" th:object="${todo}" method="post">
+        <div class="form-group">
+            <label>Titel</label>
+            <input type="text" th:field="*{title}" required />
+        </div>
+        <div class="form-group">
+            <label>Beschreibung</label>
+            <input type="text" th:field="*{description}" />
+        </div>
+        <div class="form-group">
+            <label>Faellig am</label>
+            <input type="date" th:field="*{dueDate}" />
+        </div>
+        <div class="actions">
+            <button type="submit" class="btn-save">Speichern</button>
+            <a href="/" class="btn btn-cancel">Abbrechen</a>
+        </div>
+    </form>
+</body>
+</html>

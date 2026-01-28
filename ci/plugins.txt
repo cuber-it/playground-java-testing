@@ -1,0 +1,36 @@
+# Pipeline
+workflow-aggregator
+pipeline-stage-view
+pipeline-graph-view
+
+# Git
+git
+github
+
+# Build Tools
+maven-plugin
+
+# Code Quality
+sonar
+jacoco
+
+# Test Reports
+allure-jenkins-plugin
+junit
+
+# UI
+blueocean
+dark-theme
+
+# Credentials
+credentials
+credentials-binding
+
+# Docker
+docker-workflow
+docker-plugin
+
+# Utilities
+timestamper
+ansicolor
+ws-cleanup

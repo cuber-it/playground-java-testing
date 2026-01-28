@@ -1,0 +1,34 @@
+package de.training.playground;
+
+import org.junit.jupiter.api.*;
+import static org.assertj.core.api.Assertions.*;
+
+@DisplayName("Klassenname")
+class KlassennameTest {
+
+    @BeforeAll
+    static void beforeAll() {
+    }
+
+    @BeforeEach
+    void beforeEach() {
+    }
+
+    @AfterEach
+    void afterEach() {
+    }
+
+    @AfterAll
+    static void afterAll() {
+    }
+
+    @Test
+    @DisplayName("sollte etwas tun")
+    void shouldDoSomething() {
+        // Arrange
+
+        // Act
+
+        // Assert
+    }
+}

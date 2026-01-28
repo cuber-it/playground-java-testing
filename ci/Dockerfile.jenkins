@@ -1,0 +1,56 @@
+FROM jenkins/jenkins:lts-jdk21
+
+USER root
+
+# Maven, Docker CLI, Allure und Playwright Dependencies installieren
+ENV ALLURE_VERSION=2.29.0
+RUN apt-get update && apt-get install -y \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    gnupg \
+    lsb-release \
+    maven \
+    unzip \
+    libatk1.0-0 \
+    libatk-bridge2.0-0 \
+    libatspi2.0-0 \
+    libx11-6 \
+    libxcomposite1 \
+    libxdamage1 \
+    libxext6 \
+    libxfixes3 \
+    libxrandr2 \
+    libgbm1 \
+    libdrm2 \
+    libxcb1 \
+    libxkbcommon0 \
+    libpango-1.0-0 \
+    libcairo2 \
+    && curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg \
+    && echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian $(lsb_release -cs) stable" > /etc/apt/sources.list.d/docker.list \
+    && apt-get update \
+    && apt-get install -y docker-ce-cli \
+    && rm -rf /var/lib/apt/lists/*
+
+# Allure Commandline installieren
+RUN curl -Lo /tmp/allure.tgz https://github.com/allure-framework/allure2/releases/download/${ALLURE_VERSION}/allure-${ALLURE_VERSION}.tgz \
+    && tar -xzf /tmp/allure.tgz -C /opt \
+    && ln -s /opt/allure-${ALLURE_VERSION}/bin/allure /usr/local/bin/allure \
+    && rm /tmp/allure.tgz
+
+# Jenkins User zur Docker-Gruppe hinzufuegen
+RUN groupadd -f docker && usermod -aG docker jenkins
+
+USER jenkins
+
+# Jenkins Plugins installieren
+COPY plugins.txt /usr/share/jenkins/ref/plugins.txt
+RUN jenkins-plugin-cli --plugin-file /usr/share/jenkins/ref/plugins.txt
+
+# Init-Script fuer automatische Konfiguration
+COPY setup-jenkins.groovy /usr/share/jenkins/ref/init.groovy.d/setup-jenkins.groovy
+
+# Initiales Admin-Passwort und Konfiguration
+ENV JENKINS_USER=admin
+ENV JENKINS_PASS=admin123

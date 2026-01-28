@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<templates>
+
+<!-- JUnit 5 -->
+<template autoinsert="true" context="java-members" deleted="false" description="JUnit 5 Test Method" enabled="true" name="test">
+@Test
+void ${name:newName(shouldDoSomething)}() {
+    // Arrange
+    ${cursor}
+
+    // Act
+
+    // Assert
+}
+</template>
+
+<template autoinsert="true" context="java" deleted="false" description="JUnit 5 Test Class" enabled="true" name="testclass">
+import org.junit.jupiter.api.*;
+import static org.assertj.core.api.Assertions.*;
+
+class ${name}Test {
+
+    @BeforeEach
+    void setUp() {
+        ${cursor}
+    }
+
+    @Test
+    void shouldDoSomething() {
+        // Arrange
+
+        // Act
+
+        // Assert
+    }
+}
+</template>
+
+<template autoinsert="true" context="java-members" deleted="false" description="Parameterized Test with ValueSource" enabled="true" name="ptest">
+@ParameterizedTest
+@ValueSource(strings = {${values:"a", "b", "c"}})
+void ${name:newName(shouldHandle)}(String value) {
+    ${cursor}
+}
+</template>
+
+<template autoinsert="true" context="java-members" deleted="false" description="Parameterized Test with CsvSource" enabled="true" name="ptestcsv">
+@ParameterizedTest
+@CsvSource({
+    "${input1:1}, ${expected1:true}",
+    "${input2:0}, ${expected2:false}"
+})
+void ${name:newName(shouldReturn)}(${type1:int} input, ${type2:boolean} expected) {
+    ${cursor}
+}
+</template>
+
+<!-- Mockito -->
+<template autoinsert="true" context="java" deleted="false" description="Mockito Test Class" enabled="true" name="mockclass">
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.*;
+import org.mockito.junit.jupiter.MockitoExtension;
+import static org.mockito.Mockito.*;
+import static org.assertj.core.api.Assertions.*;
+
+@ExtendWith(MockitoExtension.class)
+class ${name}Test {
+
+    @Mock
+    ${mockType:Repository} ${mockName:repository};
+
+    @InjectMocks
+    ${sutType:Service} sut;
+
+    @Test
+    void shouldDoSomething() {
+        // Arrange
+        when(${mockName}.${method:findAll}()).thenReturn(${return:List.of()});
+
+        // Act
+        ${cursor}
+
+        // Assert
+        verify(${mockName}).${method}();
+    }
+}
+</template>
+
+<template autoinsert="true" context="java-members" deleted="false" description="Mock field" enabled="true" name="mock">
+@Mock
+${type:Repository} ${name:repository};
+</template>
+
+<template autoinsert="true" context="java-statements" deleted="false" description="Mockito when().thenReturn()" enabled="true" name="whenthen">
+when(${mock}.${method}(${args:any()})).thenReturn(${return});
+</template>
+
+<template autoinsert="true" context="java-statements" deleted="false" description="Mockito verify()" enabled="true" name="verifym">
+verify(${mock}).${method}(${args:any()});
+</template>
+
+<!-- Spring Boot Test -->
+<template autoinsert="true" context="java" deleted="false" description="Spring Boot Test Class" enabled="true" name="sbtest">
+import org.junit.jupiter.api.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import static org.assertj.core.api.Assertions.*;
+
+@SpringBootTest
+class ${name}Test {
+
+    @Autowired
+    ${type:Service} ${varName:service};
+
+    @Test
+    void shouldDoSomething() {
+        ${cursor}
+    }
+}
+</template>
+
+<template autoinsert="true" context="java" deleted="false" description="WebMvcTest Class" enabled="true" name="webmvc">
+import org.junit.jupiter.api.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.web.servlet.MockMvc;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.mockito.Mockito.*;
+
+@WebMvcTest(${controller:TodoController}.class)
+class ${controller}Test {
+
+    @Autowired
+    MockMvc mockMvc;
+
+    @MockBean
+    ${service:TodoService} service;
+
+    @Test
+    void shouldReturnOk() throws Exception {
+        mockMvc.perform(get("${path:/api/todos}"))
+            .andExpect(status().isOk());
+    }
+}
+</template>
+
+<template autoinsert="true" context="java" deleted="false" description="DataJpaTest Class" enabled="true" name="datajpa">
+import org.junit.jupiter.api.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import static org.assertj.core.api.Assertions.*;
+
+@DataJpaTest
+class ${name}Test {
+
+    @Autowired
+    TestEntityManager em;
+
+    @Autowired
+    ${repo:TodoRepository} repository;
+
+    @Test
+    void shouldFindById() {
+        // Arrange
+        ${entity:Todo} entity = new ${entity}();
+        em.persistAndFlush(entity);
+
+        // Act
+        var found = repository.findById(entity.getId());
+
+        // Assert
+        assertThat(found).isPresent();
+    }
+}
+</template>
+
+<!-- REST Assured -->
+<template autoinsert="true" context="java-statements" deleted="false" description="REST Assured GET" enabled="true" name="raget">
+given()
+    .contentType(ContentType.JSON)
+.when()
+    .get("${path:/api/todos}")
+.then()
+    .statusCode(200)
+    .body("${jsonPath:[0].title}", equalTo(${value:"Test"}));
+</template>
+
+<template autoinsert="true" context="java-statements" deleted="false" description="REST Assured POST" enabled="true" name="rapost">
+given()
+    .contentType(ContentType.JSON)
+    .body(${body:"{\"title\":\"Test\"}"})
+.when()
+    .post("${path:/api/todos}")
+.then()
+    .statusCode(201)
+    .body("id", notNullValue());
+</template>
+
+<template autoinsert="true" context="java" deleted="false" description="REST Assured Test Class" enabled="true" name="raclass">
+import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
+import org.junit.jupiter.api.*;
+import static io.restassured.RestAssured.*;
+import static org.hamcrest.Matchers.*;
+
+class ${name}Test {
+
+    @BeforeAll
+    static void setUp() {
+        RestAssured.baseURI = "http://localhost";
+        RestAssured.port = ${port:8080};
+        RestAssured.basePath = "${basePath:/api}";
+    }
+
+    @Test
+    void shouldReturnAll() {
+        given()
+            .contentType(ContentType.JSON)
+        .when()
+            .get("/")
+        .then()
+            .statusCode(200);
+    }
+}
+</template>
+
+<!-- WireMock -->
+<template autoinsert="true" context="java-statements" deleted="false" description="WireMock Stub" enabled="true" name="wmstub">
+stubFor(get(urlEqualTo("${path:/api/external}"))
+    .willReturn(aResponse()
+        .withStatus(200)
+        .withHeader("Content-Type", "application/json")
+        .withBody("${body:{\"result\": true}}")));
+</template>
+
+<template autoinsert="true" context="java" deleted="false" description="WireMock Test Class" enabled="true" name="wmclass">
+import com.github.tomakehurst.wiremock.WireMockServer;
+import com.github.tomakehurst.wiremock.client.WireMock;
+import org.junit.jupiter.api.*;
+import static com.github.tomakehurst.wiremock.client.WireMock.*;
+
+class ${name}Test {
+
+    static WireMockServer wireMockServer;
+
+    @BeforeAll
+    static void startServer() {
+        wireMockServer = new WireMockServer(${port:8089});
+        wireMockServer.start();
+        WireMock.configureFor("localhost", ${port});
+    }
+
+    @AfterAll
+    static void stopServer() {
+        wireMockServer.stop();
+    }
+
+    @BeforeEach
+    void reset() {
+        wireMockServer.resetAll();
+    }
+
+    @Test
+    void shouldCallExternalService() {
+        // Arrange
+        stubFor(get(urlEqualTo("${path:/api/external}"))
+            .willReturn(aResponse()
+                .withStatus(200)
+                .withHeader("Content-Type", "application/json")
+                .withBody("{}")));
+
+        // Act
+        ${cursor}
+
+        // Assert
+        verify(getRequestedFor(urlEqualTo("${path}")));
+    }
+}
+</template>
+
+<!-- AssertJ -->
+<template autoinsert="true" context="java-statements" deleted="false" description="AssertJ assertThat" enabled="true" name="assertthat">
+assertThat(${actual}).${assertion:isEqualTo}(${expected});
+</template>
+
+<template autoinsert="true" context="java-statements" deleted="false" description="AssertJ Exception" enabled="true" name="assertex">
+assertThatThrownBy(() -> ${code:service.doSomething()})
+    .isInstanceOf(${exception:IllegalArgumentException}.class)
+    .hasMessageContaining("${message:error}");
+</template>
+
+</templates>

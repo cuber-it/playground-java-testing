@@ -1,0 +1,56 @@
+# Build output
+target/
+build/
+.allure/
+
+# Maven
+.mvn/wrapper/
+mvnw
+mvnw.cmd
+
+# Gradle
+.gradle/
+gradlew
+gradlew.bat
+
+# IntelliJ IDEA
+.idea/
+*.iml
+out/
+
+# Eclipse
+.classpath
+.project
+.settings/
+bin/
+
+# VS Code
+.vscode/
+
+# Obsidian (ueberall, auch in Unterverzeichnissen)
+**/.obsidian/
+
+# AspectJ / JVM debug
+.attach_pid*
+ajcore.*.txt
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor temp files
+*.swp
+*~
+*.bak
+
+# Environment / Secrets
+.env
+.env.local
+*.pem
+*.key
+
+# Logs
+*.log
+
+# Test artifacts
+pacts/

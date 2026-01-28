@@ -1,0 +1,31 @@
+[
+  {
+    "name": "Produktfehler",
+    "description": "Fehler im Produktionscode",
+    "descriptionHtml": "<b>Fehler im Produktionscode</b> - diese Tests decken echte Bugs auf",
+    "matchedStatuses": ["failed"],
+    "traceRegex": ".*AssertionError.*"
+  },
+  {
+    "name": "Testfehler",
+    "description": "Fehler in der Testlogik oder Testdaten",
+    "matchedStatuses": ["failed"],
+    "traceRegex": ".*NullPointerException.*|.*IllegalArgumentException.*"
+  },
+  {
+    "name": "Infrastruktur",
+    "description": "Probleme mit Testumgebung, Datenbank, Netzwerk",
+    "matchedStatuses": ["broken"],
+    "traceRegex": ".*Connection.*|.*Timeout.*|.*Socket.*"
+  },
+  {
+    "name": "Ignorierte Tests",
+    "description": "Temporaer deaktivierte Tests",
+    "matchedStatuses": ["skipped"]
+  },
+  {
+    "name": "Unbekannte Fehler",
+    "description": "Nicht kategorisierte Fehler",
+    "matchedStatuses": ["failed", "broken"]
+  }
+]
